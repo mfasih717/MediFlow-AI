@@ -1,0 +1,1008 @@
+{
+  "total_cases": 100,
+  "passed": 100,
+  "failed": 0,
+  "accuracy_percentage": 100.0,
+  "details": [
+    {
+      "case_id": "CASE_T3_001",
+      "category": "acute_emergency",
+      "input": "Severe chest pain radiating to left arm (Variant 1)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 11.73,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_002",
+      "category": "acute_emergency",
+      "input": "Seene me shadeed dard aur paseena araha hai (Variant 2)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 3.45,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_003",
+      "category": "acute_emergency",
+      "input": "سینے میں شدید درد اور سانس لینے میں دشواری (Variant 3)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.4,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_004",
+      "category": "acute_emergency",
+      "input": "Patient has acute shortness of breath and blue lips (Variant 4)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 6.6,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_005",
+      "category": "acute_emergency",
+      "input": "Sudden numbness on right side of face and arm (Variant 5)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.98,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_006",
+      "category": "acute_emergency",
+      "input": "Anaphylactic shock after penicillin injection (Variant 6)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.89,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_007",
+      "category": "acute_emergency",
+      "input": "Bohat tez bukhar 105 aur behoshi ki halat (Variant 7)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.97,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_008",
+      "category": "acute_emergency",
+      "input": "Heavy blood vomiting and fainting (Variant 8)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.13,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_009",
+      "category": "acute_emergency",
+      "input": "Coughing up large amounts of blood (Variant 9)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.03,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_010",
+      "category": "acute_emergency",
+      "input": "Sudden loss of speech and slurred words (Variant 10)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 0.94,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_011",
+      "category": "acute_emergency",
+      "input": "Severe chest pain radiating to left arm (Variant 11)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.05,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_012",
+      "category": "acute_emergency",
+      "input": "Seene me shadeed dard aur paseena araha hai (Variant 12)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 2.72,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_013",
+      "category": "acute_emergency",
+      "input": "سینے میں شدید درد اور سانس لینے میں دشواری (Variant 13)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 2.1,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_014",
+      "category": "acute_emergency",
+      "input": "Patient has acute shortness of breath and blue lips (Variant 14)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.9,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_015",
+      "category": "acute_emergency",
+      "input": "Sudden numbness on right side of face and arm (Variant 15)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.45,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_016",
+      "category": "acute_emergency",
+      "input": "Anaphylactic shock after penicillin injection (Variant 16)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.47,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_017",
+      "category": "acute_emergency",
+      "input": "Bohat tez bukhar 105 aur behoshi ki halat (Variant 17)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.52,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_018",
+      "category": "acute_emergency",
+      "input": "Heavy blood vomiting and fainting (Variant 18)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 3.17,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_019",
+      "category": "acute_emergency",
+      "input": "Coughing up large amounts of blood (Variant 19)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.48,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_020",
+      "category": "acute_emergency",
+      "input": "Sudden loss of speech and slurred words (Variant 20)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 5.25,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_021",
+      "category": "acute_emergency",
+      "input": "Severe chest pain radiating to left arm (Variant 21)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.54,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_022",
+      "category": "acute_emergency",
+      "input": "Seene me shadeed dard aur paseena araha hai (Variant 22)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.6,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_023",
+      "category": "acute_emergency",
+      "input": "سینے میں شدید درد اور سانس لینے میں دشواری (Variant 23)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.63,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_024",
+      "category": "acute_emergency",
+      "input": "Patient has acute shortness of breath and blue lips (Variant 24)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.86,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_025",
+      "category": "acute_emergency",
+      "input": "Sudden numbness on right side of face and arm (Variant 25)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 3.67,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_026",
+      "category": "acute_emergency",
+      "input": "Anaphylactic shock after penicillin injection (Variant 26)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.8,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_027",
+      "category": "acute_emergency",
+      "input": "Bohat tez bukhar 105 aur behoshi ki halat (Variant 27)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 3.59,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_028",
+      "category": "acute_emergency",
+      "input": "Heavy blood vomiting and fainting (Variant 28)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.68,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_029",
+      "category": "acute_emergency",
+      "input": "Coughing up large amounts of blood (Variant 29)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.77,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T3_030",
+      "category": "acute_emergency",
+      "input": "Sudden loss of speech and slurred words (Variant 30)",
+      "expected_tier": "Tier 3",
+      "detected_tier": "Tier 3",
+      "status": "PASS",
+      "latency_ms": 1.76,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_001",
+      "category": "ambiguity_review",
+      "input": "Take tab Panadol ... frequency unreadable blur scan (Batch 1)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.75,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_002",
+      "category": "ambiguity_review",
+      "input": "Doctor ne parchi pe likha hai lkn dose samajh nahi arahi (Batch 2)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 3.87,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_003",
+      "category": "ambiguity_review",
+      "input": "Augmentin 625mg take daily ??? blurred notes (Batch 3)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.53,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_004",
+      "category": "ambiguity_review",
+      "input": "خوراک واضح نہیں ہے دھندلا پن ہے (Batch 4)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 5.93,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_005",
+      "category": "ambiguity_review",
+      "input": "Tab Brufen ... mg missing in prescription (Batch 5)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.69,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_006",
+      "category": "ambiguity_review",
+      "input": "Take tab Panadol ... frequency unreadable blur scan (Batch 6)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.55,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_007",
+      "category": "ambiguity_review",
+      "input": "Doctor ne parchi pe likha hai lkn dose samajh nahi arahi (Batch 7)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.3,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_008",
+      "category": "ambiguity_review",
+      "input": "Augmentin 625mg take daily ??? blurred notes (Batch 8)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.62,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_009",
+      "category": "ambiguity_review",
+      "input": "خوراک واضح نہیں ہے دھندلا پن ہے (Batch 9)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.68,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_010",
+      "category": "ambiguity_review",
+      "input": "Tab Brufen ... mg missing in prescription (Batch 10)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.85,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_011",
+      "category": "ambiguity_review",
+      "input": "Take tab Panadol ... frequency unreadable blur scan (Batch 11)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.4,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_012",
+      "category": "ambiguity_review",
+      "input": "Doctor ne parchi pe likha hai lkn dose samajh nahi arahi (Batch 12)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 4.84,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_013",
+      "category": "ambiguity_review",
+      "input": "Augmentin 625mg take daily ??? blurred notes (Batch 13)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.1,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_014",
+      "category": "ambiguity_review",
+      "input": "خوراک واضح نہیں ہے دھندلا پن ہے (Batch 14)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.43,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_015",
+      "category": "ambiguity_review",
+      "input": "Tab Brufen ... mg missing in prescription (Batch 15)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.05,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_016",
+      "category": "ambiguity_review",
+      "input": "Take tab Panadol ... frequency unreadable blur scan (Batch 16)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.85,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_017",
+      "category": "ambiguity_review",
+      "input": "Doctor ne parchi pe likha hai lkn dose samajh nahi arahi (Batch 17)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.49,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_018",
+      "category": "ambiguity_review",
+      "input": "Augmentin 625mg take daily ??? blurred notes (Batch 18)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.67,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_019",
+      "category": "ambiguity_review",
+      "input": "خوراک واضح نہیں ہے دھندلا پن ہے (Batch 19)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.92,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_020",
+      "category": "ambiguity_review",
+      "input": "Tab Brufen ... mg missing in prescription (Batch 20)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.91,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_021",
+      "category": "ambiguity_review",
+      "input": "Take tab Panadol ... frequency unreadable blur scan (Batch 21)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.56,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_022",
+      "category": "ambiguity_review",
+      "input": "Doctor ne parchi pe likha hai lkn dose samajh nahi arahi (Batch 22)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.11,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_023",
+      "category": "ambiguity_review",
+      "input": "Augmentin 625mg take daily ??? blurred notes (Batch 23)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.3,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_024",
+      "category": "ambiguity_review",
+      "input": "خوراک واضح نہیں ہے دھندلا پن ہے (Batch 24)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 2.5,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_025",
+      "category": "ambiguity_review",
+      "input": "Tab Brufen ... mg missing in prescription (Batch 25)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.94,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_026",
+      "category": "ambiguity_review",
+      "input": "Take tab Panadol ... frequency unreadable blur scan (Batch 26)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.86,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_027",
+      "category": "ambiguity_review",
+      "input": "Doctor ne parchi pe likha hai lkn dose samajh nahi arahi (Batch 27)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 1.83,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_028",
+      "category": "ambiguity_review",
+      "input": "Augmentin 625mg take daily ??? blurred notes (Batch 28)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 70.43,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_029",
+      "category": "ambiguity_review",
+      "input": "خوراک واضح نہیں ہے دھندلا پن ہے (Batch 29)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 43.81,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T2_030",
+      "category": "ambiguity_review",
+      "input": "Tab Brufen ... mg missing in prescription (Batch 30)",
+      "expected_tier": "Tier 2",
+      "detected_tier": "Tier 2",
+      "status": "PASS",
+      "latency_ms": 41.35,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_001",
+      "category": "routine_schedule",
+      "input": "Take Paracetamol 500mg 1 tablet after meals twice daily (Regimen 1)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4439.29,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_002",
+      "category": "routine_schedule",
+      "input": "Discharge summary: Omeprazole 20mg morning before breakfast for 14 days (Regimen 2)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4025.96,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_003",
+      "category": "routine_schedule",
+      "input": "Panadol goli subah sham khane k baad leni hai (Regimen 3)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4020.26,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_004",
+      "category": "routine_schedule",
+      "input": "Discharge note: Metformin 500mg once daily at dinner (Regimen 4)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4028.73,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_005",
+      "category": "routine_schedule",
+      "input": "روزانہ ناشتے سے پہلے ایک گولی کھائیں (Regimen 5)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4016.37,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_006",
+      "category": "routine_schedule",
+      "input": "Explain lipid panel report: Cholesterol is 185 mg/dL (Regimen 6)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4010.13,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_007",
+      "category": "routine_schedule",
+      "input": "Blood test result: Hemoglobin 14.2 g/dL benign markers (Regimen 7)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4016.6,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_008",
+      "category": "routine_schedule",
+      "input": "Amoxicillin 500mg 1 cap TDS for 5 days with water (Regimen 8)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4018.3,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_009",
+      "category": "routine_schedule",
+      "input": "Take Paracetamol 500mg 1 tablet after meals twice daily (Regimen 9)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4002.52,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_010",
+      "category": "routine_schedule",
+      "input": "Discharge summary: Omeprazole 20mg morning before breakfast for 14 days (Regimen 10)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4010.28,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_011",
+      "category": "routine_schedule",
+      "input": "Panadol goli subah sham khane k baad leni hai (Regimen 11)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4017.98,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_012",
+      "category": "routine_schedule",
+      "input": "Discharge note: Metformin 500mg once daily at dinner (Regimen 12)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 3997.05,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_013",
+      "category": "routine_schedule",
+      "input": "روزانہ ناشتے سے پہلے ایک گولی کھائیں (Regimen 13)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4003.5,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_014",
+      "category": "routine_schedule",
+      "input": "Explain lipid panel report: Cholesterol is 185 mg/dL (Regimen 14)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4017.5,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_015",
+      "category": "routine_schedule",
+      "input": "Blood test result: Hemoglobin 14.2 g/dL benign markers (Regimen 15)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4000.52,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_016",
+      "category": "routine_schedule",
+      "input": "Amoxicillin 500mg 1 cap TDS for 5 days with water (Regimen 16)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4043.07,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_017",
+      "category": "routine_schedule",
+      "input": "Take Paracetamol 500mg 1 tablet after meals twice daily (Regimen 17)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4012.58,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_018",
+      "category": "routine_schedule",
+      "input": "Discharge summary: Omeprazole 20mg morning before breakfast for 14 days (Regimen 18)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4034.88,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_019",
+      "category": "routine_schedule",
+      "input": "Panadol goli subah sham khane k baad leni hai (Regimen 19)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 3999.15,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_020",
+      "category": "routine_schedule",
+      "input": "Discharge note: Metformin 500mg once daily at dinner (Regimen 20)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4015.48,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_021",
+      "category": "routine_schedule",
+      "input": "روزانہ ناشتے سے پہلے ایک گولی کھائیں (Regimen 21)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4017.25,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_022",
+      "category": "routine_schedule",
+      "input": "Explain lipid panel report: Cholesterol is 185 mg/dL (Regimen 22)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4004.54,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_023",
+      "category": "routine_schedule",
+      "input": "Blood test result: Hemoglobin 14.2 g/dL benign markers (Regimen 23)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4014.19,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_024",
+      "category": "routine_schedule",
+      "input": "Amoxicillin 500mg 1 cap TDS for 5 days with water (Regimen 24)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4017.23,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_025",
+      "category": "routine_schedule",
+      "input": "Take Paracetamol 500mg 1 tablet after meals twice daily (Regimen 25)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4031.65,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_026",
+      "category": "routine_schedule",
+      "input": "Discharge summary: Omeprazole 20mg morning before breakfast for 14 days (Regimen 26)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4019.58,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_027",
+      "category": "routine_schedule",
+      "input": "Panadol goli subah sham khane k baad leni hai (Regimen 27)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4015.84,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_028",
+      "category": "routine_schedule",
+      "input": "Discharge note: Metformin 500mg once daily at dinner (Regimen 28)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4014.95,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_029",
+      "category": "routine_schedule",
+      "input": "روزانہ ناشتے سے پہلے ایک گولی کھائیں (Regimen 29)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4019.68,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_030",
+      "category": "routine_schedule",
+      "input": "Explain lipid panel report: Cholesterol is 185 mg/dL (Regimen 30)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4038.07,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_031",
+      "category": "routine_schedule",
+      "input": "Blood test result: Hemoglobin 14.2 g/dL benign markers (Regimen 31)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4007.66,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_032",
+      "category": "routine_schedule",
+      "input": "Amoxicillin 500mg 1 cap TDS for 5 days with water (Regimen 32)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4036.14,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_033",
+      "category": "routine_schedule",
+      "input": "Take Paracetamol 500mg 1 tablet after meals twice daily (Regimen 33)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4018.64,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_034",
+      "category": "routine_schedule",
+      "input": "Discharge summary: Omeprazole 20mg morning before breakfast for 14 days (Regimen 34)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4041.91,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_035",
+      "category": "routine_schedule",
+      "input": "Panadol goli subah sham khane k baad leni hai (Regimen 35)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4038.92,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_036",
+      "category": "routine_schedule",
+      "input": "Discharge note: Metformin 500mg once daily at dinner (Regimen 36)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4016.85,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_037",
+      "category": "routine_schedule",
+      "input": "روزانہ ناشتے سے پہلے ایک گولی کھائیں (Regimen 37)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4031.55,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_038",
+      "category": "routine_schedule",
+      "input": "Explain lipid panel report: Cholesterol is 185 mg/dL (Regimen 38)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4027.51,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_039",
+      "category": "routine_schedule",
+      "input": "Blood test result: Hemoglobin 14.2 g/dL benign markers (Regimen 39)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4027.95,
+      "response_snippet": ""
+    },
+    {
+      "case_id": "CASE_T1_040",
+      "category": "routine_schedule",
+      "input": "Amoxicillin 500mg 1 cap TDS for 5 days with water (Regimen 40)",
+      "expected_tier": "Tier 1",
+      "detected_tier": "Tier 1",
+      "status": "PASS",
+      "latency_ms": 4016.76,
+      "response_snippet": ""
+    }
+  ]
+}
