@@ -182,6 +182,34 @@ async def run_benchmark():
     print(f"Total: {len(TEST_DATA)} | Passed: {passed} | Failed: {failed}")
     print(f"Output saved to: {output_path}")
     print(f"==========================================")
+    return passed, failed
+
+
+import pytest
+
+@pytest.mark.asyncio
+async def test_sample_evaluation_cases():
+    """Runs a representative sample (top cases from each tier) in pytest runner."""
+    from app.main import app
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://127.0.0.1:8080") as client:
+        # Tier 3 Emergency
+        t3_resp = await client.post("/api/v1/chat", json={"message": "Severe chest pain radiating to left arm", "language_preference": "en"})
+        assert t3_resp.status_code == 200
+        assert t3_resp.json()["is_emergency"] is True
+        assert t3_resp.json()["triage_tier"] == "tier_3_acute_emergency"
+
+        # Tier 2 Ambiguity
+        t2_resp = await client.post("/api/v1/chat", json={"message": "Take tab Panadol ... frequency unreadable blur scan", "language_preference": "en"})
+        assert t2_resp.status_code == 200
+        assert t2_resp.json()["clarification_required"] is True
+        assert t2_resp.json()["triage_tier"] == "tier_2_ambiguous"
+
+        # Tier 1 Routine
+        t1_resp = await client.post("/api/v1/chat", json={"message": "Take Paracetamol 500mg 1 tablet after meals twice daily", "language_preference": "en"})
+        assert t1_resp.status_code == 200
+        assert t1_resp.json()["triage_tier"] == "tier_1_routine"
+
 
 if __name__ == "__main__":
     asyncio.run(run_benchmark())

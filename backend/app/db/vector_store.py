@@ -147,7 +147,7 @@ class ClinicalVectorStore:
             return self._local_dict[clean]
 
         for key, val in self._local_dict.items():
-            if key in clean or clean in key:
+            if key in clean or (len(clean) >= 3 and clean in key):
                 return val
 
         # Database lookup if session is supplied
@@ -202,7 +202,9 @@ class ClinicalVectorStore:
             embedding=vector if HAS_PGVECTOR else None,
         )
         session.add(record)
-        await session.commit()
+        # FIX MED-6: Do NOT call session.commit() here — the session is owned by the caller (get_db dependency).
+        # The caller is responsible for committing. Double-commit causes consistency issues.
+        await session.flush()  # Flush to DB without committing — validates constraints and assigns any DB defaults.
         return record
 
     async def semantic_search_salt(
@@ -232,6 +234,10 @@ class ClinicalVectorStore:
             )
             result = await session.execute(sql, {"vector": vector_str, "limit": limit})
             rows = result.fetchall()
+            if not rows:
+                q_lower = query_text.lower()
+                matches = [v for k, v in self._local_dict.items() if q_lower in k or k in q_lower]
+                return (matches if matches else list(self._local_dict.values()))[:limit]
             return [
                 {
                     "id": r.id,

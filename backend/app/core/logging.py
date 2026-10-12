@@ -15,7 +15,8 @@ from typing import Any, Dict
 # - Phone numbers (03xx-xxxxxxx or +923xxxxxxxxx)
 # - Email addresses
 CNIC_PATTERN = re.compile(r"\b\d{5}-\d{7}-\d{1}\b")
-PHONE_PATTERN = re.compile(r"(\+92|0)?3\d{2}[-\s]?\d{7}\b")
+CNIC_UNHYPHENATED_PATTERN = re.compile(r"\b[1-7]\d{12}\b")
+PHONE_PATTERN = re.compile(r"(\+92|0)?3\d{2}[-\s.]?\d{7}\b")
 EMAIL_PATTERN = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
 
 
@@ -37,6 +38,7 @@ class PHIMaskingFilter(logging.Filter):
         if not isinstance(text, str):
             return text
         sanitized = CNIC_PATTERN.sub("[REDACTED_CNIC]", text)
+        sanitized = CNIC_UNHYPHENATED_PATTERN.sub("[REDACTED_CNIC]", sanitized)
         sanitized = PHONE_PATTERN.sub("[REDACTED_PHONE]", sanitized)
         sanitized = EMAIL_PATTERN.sub("[REDACTED_EMAIL]", sanitized)
         return sanitized

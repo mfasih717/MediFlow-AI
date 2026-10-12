@@ -20,32 +20,78 @@ from app.core.logging import logger
 
 security_scheme = HTTPBearer(auto_error=False)
 
-# Forbidden external cloud LLM hosts that would violate local AMD PHI retention
+import ipaddress
+
+# Explicit denylist of commercial public cloud LLM domains
 RESTRICTED_CLOUD_HOSTS = {
     "api.openai.com",
     "api.anthropic.com",
     "generativelanguage.googleapis.com",
     "api.cohere.ai",
     "api.mistral.ai",
+    "api.groq.com",
+    "api.deepseek.com",
+    "api.together.xyz",
 }
+
+ALLOWED_PRIVATE_DOMAIN_SUFFIXES = (
+    ".local",
+    ".internal",
+    ".lan",
+    ".amd.com",
+    ".cluster.local",
+)
+
+
+def _is_local_or_private_host(hostname: str) -> bool:
+    """Checks whether the hostname is loopback, RFC1918 private IP, or approved internal cluster domain."""
+    if not hostname:
+        return False
+    clean = hostname.lower().strip()
+    if clean in ("localhost", "127.0.0.1", "0.0.0.0", "::1"):
+        return True
+
+    # Check if valid private IP address (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, ::1, etc.)
+    try:
+        ip = ipaddress.ip_address(clean)
+        return ip.is_private or ip.is_loopback
+    except ValueError:
+        pass
+
+    # Approved internal cluster domain suffixes
+    return clean.endswith(ALLOWED_PRIVATE_DOMAIN_SUFFIXES)
 
 
 def assert_local_amd_environment(endpoint_url: str) -> bool:
     """Verifies that the inference endpoint is strictly local or private AMD hardware.
     
+    Prevents patient health information (PHI) from being dispatched to public external cloud services.
+    
     Raises:
-        RuntimeError: If a third-party proprietary cloud endpoint is configured.
+        RuntimeError: If a third-party public cloud endpoint or non-private host is configured.
     """
     parsed = urlparse(endpoint_url)
     hostname = (parsed.hostname or "").lower()
+
+    # 1. Immediate rejection of known commercial public cloud APIs
     for cloud_host in RESTRICTED_CLOUD_HOSTS:
         if cloud_host in hostname:
             err = (
-                f"FATAL SECURITY VIOLATION: Endpoint '{endpoint_url}' points to an external cloud LLM. "
+                f"FATAL SECURITY VIOLATION: Endpoint '{endpoint_url}' points to an external cloud LLM ({cloud_host}). "
                 "MediFlow AI PHI policy mandates all patient data remain within the AMD ROCm environment."
             )
             logger.critical(err)
             raise RuntimeError(err)
+
+    # 2. Enforce local loopback or private network boundary
+    if not _is_local_or_private_host(hostname):
+        err = (
+            f"SECURITY VIOLATION: Endpoint '{endpoint_url}' resolves to public host '{hostname}'. "
+            "Inference server must reside on localhost (127.0.0.1), private cluster network, or internal AMD node."
+        )
+        logger.critical(err)
+        raise RuntimeError(err)
+
     return True
 
 
@@ -61,10 +107,11 @@ def anonymize_text_for_llm(text: str) -> str:
     """Strips high-risk patient identifiers (Phone numbers, CNIC, emails) before LLM reasoning."""
     if not text:
         return ""
-    # Mask CNIC
+    # Mask Hyphenated and Unhyphenated Pakistani CNIC (13 digits)
     cleaned = re.sub(r"\b\d{5}-\d{7}-\d{1}\b", "[PATIENT_ID_REDACTED]", text)
+    cleaned = re.sub(r"\b[1-7]\d{12}\b", "[PATIENT_ID_REDACTED]", cleaned)
     # Mask Pakistani mobile numbers
-    cleaned = re.sub(r"(\+92|0)?3\d{2}[-\s]?\d{7}\b", "[PHONE_REDACTED]", cleaned)
+    cleaned = re.sub(r"(\+92|0)?3\d{2}[-\s.]?\d{7}\b", "[PHONE_REDACTED]", cleaned)
     # Mask Emails
     cleaned = re.sub(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", "[EMAIL_REDACTED]", cleaned)
     return cleaned

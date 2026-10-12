@@ -15,13 +15,15 @@ from app.agent.graph import mediflow_graph
 from app.agent.state import AgentState
 from app.core.config import settings
 from app.core.logging import logger
-from app.db.models.clinical import Document, Medication, CarePlan
+from app.db.models.clinical import Patient, Document, Medication, CarePlan
 from app.schemas.ingestion import (
     DocumentUploadResponse,
     ExtractedMedication,
     IngestionPipelineResult,
 )
 from app.schemas.triage import TriageTier, RedFlagFinding
+
+ALLOWED_FILE_EXTENSIONS = {".pdf", ".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff"}
 
 
 class DocumentService:
@@ -31,6 +33,12 @@ class DocumentService:
         """Saves uploaded document bytes to local disk securely."""
         filename = file.filename or f"upload_{uuid.uuid4().hex}"
         ext = os.path.splitext(filename)[1].lower()
+        if ext not in ALLOWED_FILE_EXTENSIONS:
+            raise HTTPException(
+                status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+                detail=f"File extension '{ext}' is not permitted.",
+            )
+
         unique_name = f"{uuid.uuid4().hex}{ext}"
         target_path = os.path.join(settings.UPLOAD_DIR, unique_name)
 
@@ -116,6 +124,17 @@ class DocumentService:
         # Persist to database if session is available
         if db_session:
             try:
+                # 0. Ensure patient record exists to satisfy foreign key constraints
+                patient_stmt = select(Patient).where(Patient.id == pat_id)
+                patient_res = await db_session.execute(patient_stmt)
+                if not patient_res.scalars().first():
+                    db_patient = Patient(
+                        id=pat_id,
+                        language_preference=final_state.get("language_preference", "ur"),
+                    )
+                    db_session.add(db_patient)
+                    await db_session.flush()
+
                 # 1. Document record
                 db_doc = Document(
                     id=doc_id,
@@ -173,6 +192,7 @@ class DocumentService:
             except Exception as exc:
                 logger.error("Database persistence error during document ingestion: %s", exc)
                 await db_session.rollback()
+                # Continue — return pipeline result even if DB persistence failed
 
         return result
 

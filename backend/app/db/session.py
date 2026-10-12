@@ -46,11 +46,15 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    """FastAPI dependency yielding an async database session."""
+    """FastAPI dependency yielding an async database session.
+
+    FIX HIGH-6: Session is NOT auto-committed here. Each write-path service method
+    is responsible for calling session.commit() explicitly. This prevents unnecessary
+    COMMIT calls on read-only (GET) requests.
+    """
     async with AsyncSessionLocal() as session:
         try:
             yield session
-            await session.commit()
         except Exception as exc:
             await session.rollback()
             raise exc

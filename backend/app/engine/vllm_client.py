@@ -154,10 +154,15 @@ class VLLMClient:
                     raise RuntimeError(err_msg)
             except Exception as exc:
                 last_error = exc
+                # If connection was actively refused, timed out, or unreachable on localhost, don't waste time retrying
+                if isinstance(exc, (httpx.ConnectError, httpx.TimeoutException, httpx.NetworkError, ConnectionRefusedError)):
+                    logger.debug("Local vLLM server unreachable on %s (%s); skipping retries for immediate fallback.", self.base_url, type(exc).__name__)
+                    break
                 if attempt < retries:
                     continue
 
-        raise RuntimeError(f"vLLM chat completion failed after {retries} retries: {last_error}")
+        err_detail = str(last_error).strip() if last_error and str(last_error).strip() else type(last_error).__name__
+        raise RuntimeError(f"vLLM chat completion failed: {err_detail}")
 
     async def stream_chat_completion(
         self,
@@ -214,7 +219,9 @@ class VLLMClient:
                 data = response.json()
                 items = data.get("data", [])
                 if items:
-                    return items[0].get("embedding", [])
+                    vec = items[0].get("embedding", [])
+                    if vec and len(vec) == dim:
+                        return vec
         except Exception as exc:
             logger.debug("vLLM /embeddings route unavailable (%s); using deterministic local embedding.", exc)
 

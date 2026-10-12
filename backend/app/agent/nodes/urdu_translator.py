@@ -6,6 +6,8 @@ All Urdu literals use pure Unicode escape sequences (\\uXXXX) to guarantee 100% 
 """
 
 from typing import Any, Dict, List
+import json
+import re
 import uuid
 
 from app.agent.state import AgentState
@@ -116,6 +118,37 @@ def _deterministic_english_summary(medications: List[Dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+def _parse_llm_bilingual_response(response: str) -> tuple:
+    """FIX BUG-1: Parse the LLM bilingual response into separate English and Urdu strings.
+
+    The LLM is instructed to return numbered sections. We try to split them.
+    Returns (english_text, urdu_text) or (None, None) if parsing fails.
+    """
+    # Try JSON first
+    try:
+        cleaned = response.strip()
+        if cleaned.startswith("{"):
+            data = json.loads(cleaned)
+            en = data.get("english_explanation") or data.get("reply_english")
+            ur = data.get("urdu_explanation") or data.get("reply_urdu")
+            if en and ur:
+                return en, ur
+    except Exception:
+        pass
+
+    # Try section-based split on "1. English" / "2. Urdu" markers
+    en_match = re.search(
+        r"1\.\s*English[^:]*:(.*?)(?=2\.|$)", response, re.DOTALL | re.IGNORECASE
+    )
+    ur_match = re.search(
+        r"2\.\s*(?:Urdu|\u0627\u0631\u062f\u0648)[^:]*:(.*?)$", response, re.DOTALL | re.IGNORECASE
+    )
+    if en_match and ur_match:
+        return en_match.group(1).strip(), ur_match.group(1).strip()
+
+    return None, None
+
+
 async def urdu_translator_node(state: AgentState) -> Dict[str, Any]:
     """LangGraph node: Generates bilingual explanations and medication schedule."""
     medications = state.get("extracted_medications", [])
@@ -135,10 +168,11 @@ async def urdu_translator_node(state: AgentState) -> Dict[str, Any]:
         for m in medications
     ])
 
+    # Start with reliable deterministic summaries as defaults
     urdu_text = _deterministic_urdu_summary(medications)
     english_text = _deterministic_english_summary(medications)
 
-    # Optionally enhance via local AMD ROCm vLLM
+    # FIX BUG-1: Optionally enhance via local AMD ROCm vLLM — parse response properly into two fields.
     try:
         prompt = URDU_LOCALIZATION_USER_PROMPT.format(medications_summary=meds_summary)
         messages = [
@@ -149,11 +183,15 @@ async def urdu_translator_node(state: AgentState) -> Dict[str, Any]:
             messages=messages,
             temperature=0.2,
             max_tokens=1024,
+            retries=0,
         )
         if response and len(response) > 50:
-            # If LLM returned both languages
-            english_text = response
-            urdu_text = response
+            parsed_en, parsed_ur = _parse_llm_bilingual_response(response)
+            if parsed_en and parsed_ur:
+                # Only replace if both sections were successfully parsed
+                english_text = parsed_en
+                urdu_text = parsed_ur
+            # If parsing fails, deterministic templates remain as fallback (do NOT assign raw response to both)
     except Exception as exc:
         logger.debug("Local vLLM bilingual formatting skipped (%s); using deterministic templates.", exc)
 

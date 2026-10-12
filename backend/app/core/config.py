@@ -12,7 +12,12 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(
+            ".env",
+            "backend/.env",
+            os.path.join(os.path.dirname(__file__), "../../.env"),
+            os.path.join(os.path.dirname(__file__), "../../../.env"),
+        ),
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore",
@@ -68,9 +73,14 @@ class Settings(BaseSettings):
     DB_ECHO: bool = False
 
     # Security & Authentication
-    SECRET_KEY: str = "mediflow-production-secret-key-32-bytes-minimum!"
+    # FIX CRIT-1: No hardcoded defaults — must be supplied via environment variables.
+    SECRET_KEY: str = Field(
+        ...,
+        description="JWT signing secret. Must be >= 32 chars. Set via SECRET_KEY env var.",
+    )
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
+    # FIX MED-1: Reduced from 1440 (24h) to 60 minutes for clinical safety.
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     ALLOWED_ORIGINS: Union[str, List[str]] = Field(
         default_factory=lambda: [
             "http://localhost:3000",
@@ -79,7 +89,11 @@ class Settings(BaseSettings):
             "http://localhost:8080",
         ]
     )
-    PHI_ENCRYPTION_KEY: str = "mediflow-phi-32byte-aes-secret-key!"
+    # FIX CRIT-2: PHI_ENCRYPTION_KEY now mandatory with no default.
+    PHI_ENCRYPTION_KEY: str = Field(
+        ...,
+        description="AES-256 key for PHI column encryption. Must be exactly 32 bytes. Set via env var.",
+    )
 
     # OCR Processing Settings
     OCR_ENGINE: str = "auto"  # "paddleocr" | "tesseract" | "auto"
@@ -94,6 +108,42 @@ class Settings(BaseSettings):
     # Storage Settings
     UPLOAD_DIR: str = "./uploads"
     MAX_FILE_SIZE_MB: int = 15
+    # FIX CRIT-3: Hard cap on request body size enforced at ASGI middleware level.
+    MAX_REQUEST_BODY_BYTES: int = 16 * 1024 * 1024  # 16 MB absolute ceiling
+
+    # Chat input guard — prevents token flooding and prompt injection
+    MAX_CHAT_MESSAGE_LENGTH: int = 4000  # characters
+
+    @field_validator("SECRET_KEY")
+    @classmethod
+    def secret_key_strength(cls, v: str) -> str:
+        """Reject weak or default SECRET_KEY values at startup."""
+        weak_markers = ["mediflow-production", "changeme", "secret", "example", "default"]
+        if len(v) < 32:
+            raise ValueError("SECRET_KEY must be at least 32 characters long.")
+        if any(marker in v.lower() for marker in weak_markers):
+            raise ValueError(
+                "SECRET_KEY contains a known-weak default string. "
+                "Generate a cryptographically random key (e.g., `openssl rand -hex 32`)."
+            )
+        return v
+
+    @field_validator("PHI_ENCRYPTION_KEY")
+    @classmethod
+    def phi_key_strength(cls, v: str) -> str:
+        """Enforce exactly 32-byte AES key; reject known weak defaults."""
+        weak_markers = ["mediflow-phi", "changeme", "example", "default"]
+        if len(v.encode("utf-8")) != 32:
+            raise ValueError(
+                "PHI_ENCRYPTION_KEY must be exactly 32 UTF-8 bytes for AES-256. "
+                f"Got {len(v.encode('utf-8'))} bytes."
+            )
+        if any(marker in v.lower() for marker in weak_markers):
+            raise ValueError(
+                "PHI_ENCRYPTION_KEY contains a known-weak default string. "
+                "Generate a random 32-byte key for production."
+            )
+        return v
 
     @field_validator("ALLOWED_ORIGINS", mode="before")
     @classmethod
@@ -136,7 +186,6 @@ class Settings(BaseSettings):
                         if cleaned:
                             return cleaned
                 except Exception:
-                    # Strip brackets if json.loads failed on unquoted brackets like [http://localhost:3000]
                     clean_str = clean_str[1:-1].strip()
 
             # If it is a comma-separated string, split by ',' and strip whitespace

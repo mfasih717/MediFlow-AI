@@ -37,6 +37,8 @@ class AgentState(TypedDict, total=False):
     clarification_needed: bool
     clarification_questions: List[str]
     human_review_required: bool
+    # FIX MED-3: Tracks number of human-review cycles to prevent infinite loops.
+    clarification_cycle_count: int
 
     # Bilingual Localization & Patient Guidance
     urdu_explanation: Optional[str]

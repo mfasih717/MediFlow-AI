@@ -42,15 +42,21 @@ def _heuristic_entity_extraction(text: str) -> List[Dict[str, Any]]:
             strength_match = re.search(rf"{brand}\s*(\d+\s*(?:mg|g|ml))", text_lower)
             strength = strength_match.group(1).upper() if strength_match else default_strength
 
-            # Check frequency keywords
+            # FIX MED-4: Extract frequency from a LOCAL context window around this medication
+            # (±120 chars), not from the entire document. Prevents cross-medication contamination.
+            brand_pos = text_lower.find(brand)
+            context_start = max(0, brand_pos - 40)
+            context_end = min(len(text_lower), brand_pos + len(brand) + 80)
+            local_ctx = text_lower[context_start:context_end]
+
             freq = "As directed by physician"
-            if "tds" in text_lower or "tid" in text_lower or "three times" in text_lower:
+            if re.search(r"\b(tds|t\.d\.s\.|tid|t\.i\.d\.|three\s+times)\b", local_ctx):
                 freq = "Three times daily (TDS)"
-            elif "bd" in text_lower or "bid" in text_lower or "twice" in text_lower:
+            elif re.search(r"\b(bd|b\.d\.|bid|b\.i\.d\.|twice(?:\s+daily)?)\b", local_ctx):
                 freq = "Twice daily (BD)"
-            elif "od" in text_lower or "once" in text_lower:
+            elif re.search(r"\b(od|o\.d\.|once(?:\s+daily)?)\b", local_ctx):
                 freq = "Once daily (OD)"
-            elif "sos" in text_lower or "prn" in text_lower or "as needed" in text_lower:
+            elif re.search(r"\b(sos|s\.o\.s\.|prn|p\.r\.n\.|as\s+needed)\b", local_ctx):
                 freq = "As needed (SOS)"
 
             meds.append({
@@ -92,6 +98,7 @@ async def clinical_reasoning_node(state: AgentState) -> Dict[str, Any]:
             messages=messages,
             temperature=0.1,
             max_tokens=2048,
+            retries=0,
         )
 
         # Parse JSON from model output

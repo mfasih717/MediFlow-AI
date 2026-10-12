@@ -104,6 +104,7 @@ class ChatService:
                 messages=messages,
                 temperature=0.3,
                 max_tokens=1024,
+                retries=0,
             )
             # Try parsing bilingual JSON
             cleaned = llm_response.strip()
@@ -117,9 +118,8 @@ class ChatService:
                 reply_en = data.get("reply_english", reply_en)
                 reply_ur = data.get("reply_urdu", reply_ur)
             else:
-                # If plain text returned
+                # If plain text returned, use as English only; keep Urdu default
                 reply_en = llm_response
-                reply_ur = llm_response
         except Exception as exc:
             logger.warning("Local vLLM chat completion error (%s); falling back to clinical default responses.", exc)
 
@@ -139,19 +139,67 @@ class ChatService:
         )
 
     async def stream_chat_tokens(self, request: ChatRequest) -> AsyncGenerator[str, None]:
-        """Streams raw tokens for WebSocket or Server-Sent Events."""
-        # Check red flags first
-        findings = scan_for_red_flags(request.message)
+        """Streams raw tokens for WebSocket or Server-Sent Events with fallback safety."""
+        user_msg = request.message.strip()
+
+        # 1. Deterministic Tier 3 Red-Flag Check
+        findings = scan_for_red_flags(user_msg)
         if findings:
-            yield URDU_EMERGENCY_DIRECTIVE
+            logger.critical("TIER 3 RED-FLAG DETECTED IN STREAMING CHAT: %s", [f["symptom_key"] for f in findings])
+            lang = getattr(request, "language_preference", "mixed")
+            if lang == "en":
+                yield ENGLISH_EMERGENCY_DIRECTIVE
+            elif lang in ("ur", "ur_roman"):
+                yield URDU_EMERGENCY_DIRECTIVE
+            else:
+                yield f"{ENGLISH_EMERGENCY_DIRECTIVE}\n\n{URDU_EMERGENCY_DIRECTIVE}"
             return
 
-        messages = [
-            {"role": "system", "content": "You are MediFlow AI, an empathetic bilingual clinical co-pilot."},
-            {"role": "user", "content": request.message},
+        # 2. Deterministic Tier 2 Ambiguity Check
+        if scan_for_ambiguity(user_msg):
+            lang = getattr(request, "language_preference", "mixed")
+            en_clarification = (
+                "The prescription or dosage detail in your request is unclear or partially illegible. "
+                "For your clinical safety, please upload a clearer scan or consult your prescribing doctor "
+                "or pharmacist to verify the exact strength and frequency before taking this medication."
+            )
+            ur_clarification = (
+                "\u0622\u067e \u06a9\u06d2 \u0646\u0633\u062e\u06d2 \u0645\u06cc\u06ba \u062f\u0648\u0627 \u06a9\u06cc \u062e\u0648\u0631\u0627\u06a9 \u06cc\u0627 \u06c1\u062f\u0627\u06cc\u0627\u062a \u0648\u0627\u0636\u062d \u0646\u06c1\u06cc\u06ba \u06c1\u06cc\u06ba\u06d4 "
+                "\u0628\u0631\u0627\u06c1 \u06a9\u0631\u0645 \u0627\u067e\u0646\u06cc \u0635\u062d\u062a \u06a9\u06cc \u062d\u0641\u0627\u0638\u062a \u06a9\u06d2 \u0644\u0626\u06d2 \u0635\u0627\u0641 \u062a\u0635\u0648\u06cc\u0631 \u0628\u06be\u06cc\u062c\u06cc\u06ba \u06cc\u0627 \u0688\u0627\u06a9\u0679\u0631 \u0633\u06d2 \u0631\u0627\u0628\u0637\u06c1 \u06a9\u0631\u06cc\u06ba\u06d4"
+            )
+            if lang == "en":
+                out = en_clarification
+            elif lang in ("ur", "ur_roman"):
+                out = ur_clarification
+            else:
+                out = f"{en_clarification}\n\n{ur_clarification}"
+            for word in out.split(" "):
+                yield word + " "
+            return
+
+        # 3. Sanitize PHI before sending to vLLM
+        sanitized_msg = anonymize_text_for_llm(user_msg)
+        messages: List[Dict[str, str]] = [
+            {"role": "system", "content": "You are MediFlow AI, an empathetic bilingual clinical co-pilot."}
         ]
-        async for token in vllm_client.stream_chat_completion(messages):
-            yield token
+        if hasattr(request, "history") and request.history:
+            for turn in request.history[-6:]:
+                messages.append({"role": turn.role, "content": anonymize_text_for_llm(turn.content)})
+        messages.append({"role": "user", "content": sanitized_msg})
+
+        # 4. Stream tokens with offline resilience
+        try:
+            async for token in vllm_client.stream_chat_completion(messages):
+                yield token
+        except Exception as exc:
+            logger.warning("Local vLLM streaming unavailable (%s); streaming deterministic fallback.", exc)
+            lang = getattr(request, "language_preference", "mixed")
+            if lang in ("ur", "ur_roman"):
+                msg = "\u0631\u0627\u0628\u0637\u06c1 \u06a9\u0631\u0646\u06d2 \u06a9\u0627 \u0634\u06a9\u0631\u06cc\u06c1\u06d4 \u0628\u0631\u0627\u06c1 \u06a9\u0631\u0645 \u0627\u067e\u0646\u06cc \u0627\u062f\u0648\u06cc\u0627\u062a \u0648\u0642\u062a \u067e\u0631 \u067e\u0627\u0646\u06cc \u06a9\u06d2 \u0633\u0627\u062a\u06be \u0644\u06cc\u06ba\u060c \u0627\u0648\u0631 \u06a9\u0633\u06cc \u0628\u06be\u06cc \u063a\u06cc\u0631 \u0645\u0639\u0645\u0648\u0644\u06cc \u0639\u0644\u0627\u0645\u062a \u06a9\u06cc \u0635\u0648\u0631\u062a \u0645\u06cc\u06ba \u0645\u0637\u0644\u0639 \u06a9\u0631\u06cc\u06ba\u06d4"
+            else:
+                msg = "Thank you for reaching out. Please take your prescribed medications on time with water, and let me know if you experience any unexpected side effects."
+            for w in msg.split(" "):
+                yield w + " "
 
 
 chat_service = ChatService()

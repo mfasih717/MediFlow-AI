@@ -118,6 +118,11 @@ class DocumentOCRParser:
                 confidences: List[float] = []
                 line_details: List[Dict[str, Any]] = []
 
+                left_arr = data.get("left", [])
+                top_arr = data.get("top", [])
+                width_arr = data.get("width", [])
+                height_arr = data.get("height", [])
+
                 for i, conf in enumerate(data.get("conf", [])):
                     text_chunk = data.get("text", [])[i] if i < len(data.get("text", [])) else ""
                     if isinstance(conf, (int, float)) and conf > 0 and text_chunk.strip():
@@ -127,10 +132,10 @@ class DocumentOCRParser:
                             "text": text_chunk.strip(),
                             "confidence": round(normalized_conf, 3),
                             "bbox": [
-                                data.get("left", [0])[i],
-                                data.get("top", [0])[i],
-                                data.get("width", [0])[i],
-                                data.get("height", [0])[i],
+                                left_arr[i] if i < len(left_arr) else 0,
+                                top_arr[i] if i < len(top_arr) else 0,
+                                width_arr[i] if i < len(width_arr) else 0,
+                                height_arr[i] if i < len(height_arr) else 0,
                             ],
                         })
 
@@ -142,8 +147,10 @@ class DocumentOCRParser:
             except Exception as exc:
                 logger.warning("pytesseract execution notice: %s", exc)
 
-        # Engine 3: Graceful fallback when local OCR binaries are uninstalled/offline
-        return "Prescription text extracted via fallback processor.", 0.85, "fallback_basic", []
+        # FIX INFO-1: Return empty string + 0.0 confidence — do NOT fabricate a placeholder string
+        # with falsely high confidence (0.85 was above the 0.75 threshold, causing downstream errors).
+        logger.warning("All OCR engines unavailable. Returning empty extraction with zero confidence.")
+        return "", 0.0, "fallback_unavailable", []
 
     def process_pdf_bytes(self, pdf_bytes: bytes) -> Tuple[str, float, str, List[Dict[str, Any]]]:
         """Extracts text directly from digital PDF stream or falls back to page rendering."""
@@ -167,7 +174,10 @@ class DocumentOCRParser:
             except Exception as exc:
                 logger.warning("Digital PDF text extraction notice: %s; falling back to image OCR.", exc)
 
-        return self.process_image_bytes(pdf_bytes)
+        # FIX MED-5: Do NOT pass raw PDF bytes to Image.open — that will always fail.
+        # Signal a graceful failure with zero confidence instead.
+        logger.warning("PDF text extraction failed and no image renderer available. Returning empty extraction.")
+        return "", 0.0, "pdf_fallback_unavailable", []
 
 
 # Singleton OCR parser instance

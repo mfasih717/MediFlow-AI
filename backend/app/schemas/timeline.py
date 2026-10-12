@@ -25,14 +25,15 @@ class ScheduleDose(BaseModel):
     dose_id: str
     medication_name: str
     generic_salt: Optional[str] = None
-    strength: str
+    strength: Optional[str] = ""
     time_slot: TimeSlot
     scheduled_time: str = "08:00"
     meal_relation: str = "after_meals"  # "before_meals", "after_meals", "with_meals", "empty_stomach"
-    english_instruction: str
-    urdu_instruction: str
+    english_instruction: Optional[str] = ""
+    urdu_instruction: Optional[str] = ""
     status: DoseStatus = DoseStatus.SCHEDULED
     taken_at: Optional[datetime] = None
+
 
 
 class DailyMedicationTimeline(BaseModel):

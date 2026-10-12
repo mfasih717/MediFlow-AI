@@ -57,6 +57,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 def create_application() -> FastAPI:
     """Factory function for FastAPI application."""
+    # FIX MED-2: Disable Swagger/ReDoc docs in production to avoid exposing API surface.
+    docs_url = "/docs" if settings.DEBUG else None
+    redoc_url = "/redoc" if settings.DEBUG else None
+
     app = FastAPI(
         title=settings.PROJECT_NAME,
         version=settings.VERSION,
@@ -65,9 +69,9 @@ def create_application() -> FastAPI:
             "Optimized for AMD Developer Cloud (ROCm 6.x + local vLLM inference), PostgreSQL 16 (pgvector), "
             "and LangGraph clinical safety workflows."
         ),
-        docs_url="/docs",
-        redoc_url="/redoc",
-        openapi_url=f"{settings.API_V1_STR}/openapi.json",
+        docs_url=docs_url,
+        redoc_url=redoc_url,
+        openapi_url=f"{settings.API_V1_STR}/openapi.json" if settings.DEBUG else None,
         lifespan=lifespan,
     )
 
@@ -81,12 +85,17 @@ def create_application() -> FastAPI:
     )
 
     # Global Exception Handlers
-    @app.exception_handler(RuntimeError)
-    async def runtime_error_handler(request: Request, exc: RuntimeError):
-        logger.error("Runtime error encountered on %s: %s", request.url.path, exc)
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request: Request, exc: Exception):
+        logger.error("Unhandled error encountered on %s: %s", request.url.path, exc, exc_info=True)
+        # FIX HIGH-5: Do NOT expose raw exception details in production. Log them; return generic message.
+        if settings.DEBUG:
+            detail = str(exc)
+        else:
+            detail = "An internal server error occurred. Please contact support."
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"detail": str(exc), "path": str(request.url.path)},
+            content={"detail": detail, "path": str(request.url.path)},
         )
 
     # Mount API v1 Master Router
@@ -98,7 +107,8 @@ def create_application() -> FastAPI:
             "message": "MediFlow AI Backend Service Running",
             "version": settings.VERSION,
             "port": settings.PORT,
-            "docs": "/docs",
+            # FIX MED-2: Do not advertise docs URL in production
+            "docs": "/docs" if settings.DEBUG else "Disabled in production",
             "api_v1": settings.API_V1_STR,
             "amd_telemetry": f"{settings.API_V1_STR}/health/amd-rocm",
             "infrastructure": "AMD Developer Cloud (ROCm 6.x)",
